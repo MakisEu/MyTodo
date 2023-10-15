@@ -30,16 +30,6 @@
           <string>Todo</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QListView" name="listView">
-            <property name="minimumSize">
-             <size>
-              <width>500</width>
-              <height>400</height>
-             </size>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
@@ -62,7 +52,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="pushButton_1">
               <property name="minimumSize">
                <size>
                 <width>120</width>
@@ -129,6 +119,16 @@ As Completed
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="0" column="0">
+           <widget class="QTableView" name="tableView">
+            <property name="minimumSize">
+             <size>
+              <width>500</width>
+              <height>400</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

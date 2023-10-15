@@ -2,6 +2,7 @@
 #define ADD_TODO_H
 
 #include <QWidget>
+#include <QTableView>
 
 namespace Ui {
 class Add_Todo;
@@ -13,6 +14,8 @@ class Add_Todo : public QWidget
 
 public:
     explicit Add_Todo(QWidget *parent = nullptr);
+    //Add_Todo(QWidget *parent,QWidget *p);
+    void test(QTableView *p);
     ~Add_Todo();
 
 private slots:
@@ -22,6 +25,8 @@ private slots:
 
 private:
     Ui::Add_Todo *ui;
+    int nextId;
+    QTableView* mw;
 };
 
 #endif // ADD_TODO_H

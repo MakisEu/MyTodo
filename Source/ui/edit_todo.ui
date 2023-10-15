@@ -68,6 +68,9 @@
         <height>35</height>
        </size>
       </property>
+      <property name="displayFormat">
+       <string>dd/MM/yyyy hh:mm</string>
+      </property>
      </widget>
     </item>
     <item row="2" column="0">
@@ -98,6 +101,9 @@
         <width>120</width>
         <height>35</height>
        </size>
+      </property>
+      <property name="displayFormat">
+       <string>dd/MM/yyyy hh:mm</string>
       </property>
      </widget>
     </item>

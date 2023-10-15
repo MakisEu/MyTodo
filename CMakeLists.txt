@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Sql)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Sql)
 
 set(TS_FILES Source/translations/MyTodo_en_US.ts)
 
@@ -19,13 +19,20 @@ set(PROJECT_SOURCES
         Source/src/mainwindow.cpp
         Source/headers/mainwindow.h
         Source/ui/mainwindow.ui
-		Source/src/add_todo.cpp
-		Source/src/edit_todo.cpp
-		Source/src/history.cpp
-		Source/headers/add_todo.h
-		Source/headers/edit_todo.h
-		Source/headers/history.h
-
+        Source/src/add_todo.cpp
+        Source/src/edit_todo.cpp
+        Source/src/history.cpp
+        Source/headers/add_todo.h
+        Source/headers/edit_todo.h
+        Source/headers/history.h
+        Source/src/todo.cpp
+        Source/headers/todo.h
+        Source/src/control_unit.cpp
+        Source/headers/control_unit.h
+        Source/headers/database.h
+        Source/src/database.cpp
+        Source/headers/helper.h
+        Source/src/helper.cpp
 
         ${TS_FILES}
 )
@@ -57,7 +64,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(MyTodo PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(MyTodo PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

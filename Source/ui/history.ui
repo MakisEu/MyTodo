@@ -23,6 +23,9 @@
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMaximumSize</enum>
+    </property>
     <item>
      <widget class="QListWidget" name="listWidget"/>
     </item>
@@ -51,7 +54,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Clear History</string>
+       <string>Clear Old History</string>
       </property>
      </widget>
     </item>
