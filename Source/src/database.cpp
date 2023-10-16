@@ -82,6 +82,26 @@ std::vector<Todo*> getTodos(){
     }
     return v;
 }
+void deleteTodo(int id){
+    QSqlQuery query(DB);
+    query.prepare("DELETE FROM Todo WHERE ID ="+QString::fromStdString(std::to_string(id))+";");
+    query.exec();
+}
+void editTodo(Todo *td){
+    QSqlQuery query(DB);
+    query.prepare("UPDATE Todo SET NAME=:name, START_DATE=:sd, END_DATE=:ed WHERE ID=:id;");
+    query.bindValue(":name",QString::fromStdString(td->getName()));
+    query.bindValue(":sd",QString::fromStdString(td->getStartDate()));
+    query.bindValue(":ed",QString::fromStdString(td->getEndDate()));
+    query.bindValue(":id",td->getId());
+    query.exec();
+}
+void updateStatus(int id,std::string s){
+    QSqlQuery query(DB);
+    query.prepare("UPDATE TODO SET STATUS=:status WHERE ID=:id;");
+    query.bindValue(":status",QString::fromStdString(s));
+    query.exec();
+}
 
 
 Database::Database()

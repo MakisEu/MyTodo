@@ -3,6 +3,7 @@
 
 #include "../headers/add_todo.h"
 #include "../headers/database.h"
+#include "../headers/history.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -32,6 +33,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    History *hist;
     //Add_Todo* add_todo;
 };
 #endif // MAINWINDOW_H

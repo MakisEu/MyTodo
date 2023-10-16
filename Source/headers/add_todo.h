@@ -15,7 +15,7 @@ class Add_Todo : public QWidget
 public:
     explicit Add_Todo(QWidget *parent = nullptr);
     //Add_Todo(QWidget *parent,QWidget *p);
-    void test(QTableView *p);
+    void passTable(QTableView *p);
     ~Add_Todo();
 
 private slots:
@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::Add_Todo *ui;
     int nextId;
-    QTableView* mw;
+    QTableView* tableView;
 };
 
 #endif // ADD_TODO_H

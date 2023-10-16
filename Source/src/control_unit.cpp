@@ -30,12 +30,57 @@ bool ControlUnit::AddTodo(std::string name,std::string start_date,std::string en
         delete todo;
         return true;
 }
-bool ControlUnit::EditTodo(std::string name,std::string start_date,std::string end_date,int id){
-		return false;
+bool ControlUnit::EditTodo(Todo *td){
+        editTodo(td);
+        return true;
 }
-bool ControlUnit::DeleteTodo(int id){return true;}
-bool ControlUnit::UpdateTodoStatus(std::string status){return true;}
+bool ControlUnit::DeleteTodo(Todo *td){
+        deleteTodo(td->getId());
 
+        std::ofstream fout;
+        fout.open("../MyTodo/Source/db/History.txt",std::ios_base::app);
+        if (fout) {
+            if (td->getStatus()!="Completed"){
+                td->updateStatus("Deleted");
+            }
+            fout<<td->toString()+"\n";
+        }
+        fout.close();
+        return true;
+}
+bool ControlUnit::UpdateTodoStatus(Todo *td,std::string status){
+        updateStatus(td->getId(),status);
+        td->updateStatus(status);
+        this->DeleteTodo(td);
+        return true;
+}
+
+std::vector<std::string> ControlUnit::getStringTodos(){
+        std::vector<Todo*> v=getTodos();
+        std::vector<std::string> strings;
+
+        std::vector<Todo*>::iterator it;
+        for(it = v.begin() ;it != v.end() ;++it)
+        {
+        strings.push_back((*it)->toString());
+        }
+        return strings;
+}
+std::vector<std::string> ControlUnit::getPastHistory(){
+        std::ifstream file;
+        std::vector<std::string> strings;
+
+        file.open("../MyTodo/Source/db/History.txt");
+        if (file.is_open()) {
+        std::string line;
+        while (getline(file, line)) {
+            // using printf() in all tests for consistency
+            strings.push_back(line);
+        }
+        file.close();
+        }
+        return strings;
+}
 
 
 ControlUnit::~ControlUnit(){

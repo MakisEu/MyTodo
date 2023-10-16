@@ -36,8 +36,9 @@ int Todo::getId(){
 std::string Todo::getStatus(){
 		return this->status;
 }
-std::string toString(){
+std::string Todo::toString(){
         std::string s;
+        s=name+"  "+start_date+"  "+end_date+"  "+date_created+"  "+status;
         //s=std::to_string(id)+"{Delimiter}"+name+"{Delimiter}"+start_date+"{Delimiter}"+end_date+"{Delimiter}"+date_created+"{Delimiter}"+status;
         return s;
 }

@@ -12,6 +12,9 @@ void closeDB();
 void createTables();
 void addTodo(Todo* newTodo);
 std::vector<Todo*> getTodos();
+void deleteTodo(int id);
+void editTodo(Todo *td);
+void updateStatus(int id,std::string s);
 class Database
 {
 public:

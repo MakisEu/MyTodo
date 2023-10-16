@@ -2,7 +2,8 @@
 #define EDIT_TODO_H
 
 #include <QWidget>
-
+#include <QTableView>
+#include "../headers/todo.h"
 namespace Ui {
 class Edit_Todo;
 }
@@ -13,6 +14,9 @@ class Edit_Todo : public QWidget
 
 public:
     explicit Edit_Todo(QWidget *parent = nullptr);
+    void setValues(Todo *td);
+    void passTable(QTableView *p);
+
     ~Edit_Todo();
 
 private slots:
@@ -22,6 +26,9 @@ private slots:
 
 private:
     Ui::Edit_Todo *ui;
+    QTableView* tableView;
+    int id;
+
 };
 
 #endif // EDIT_TODO_H
