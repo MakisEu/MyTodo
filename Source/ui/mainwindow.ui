@@ -6,12 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1034</width>
-    <height>776</height>
+    <width>968</width>
+    <height>761</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TODO</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../img/todo_icon.png</normaloff>../img/todo_icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="layoutDirection">
@@ -132,28 +136,23 @@ As Completed
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="tab_2">
-         <attribute name="title">
-          <string>Reminder</string>
-         </attribute>
-        </widget>
        </widget>
       </item>
      </layout>
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1034</width>
+     <width>968</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

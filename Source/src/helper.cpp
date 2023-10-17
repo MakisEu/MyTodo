@@ -1,5 +1,7 @@
 #include "../headers/helper.h"
 #include "../headers/database.h"
+#include "../headers/reminder.h"
+#include "../headers/database.h"
 
 #include <string>
 #include <QTableView>
@@ -44,13 +46,17 @@ void refreshTodos(QTableView *tv){
     tv->setColumnWidth(3,125);
     tv->setColumnWidth(4,125);
     tv->setColumnWidth(5,125);
-
-
-
-
+}
+std::string getCommand(Reminder *r){
+    std::string s;
+    QString title;
+    if (r->message.contains("started")){
+        title="Todo Has Started";
+    }
+    else{
+        title="Todo Has Expired";
+    }
+    s="notify-send '"+title.toStdString()+"' \""+r->message.toStdString()+"\"";
+    return s;
 }
 
-helper::helper()
-{
-
-}

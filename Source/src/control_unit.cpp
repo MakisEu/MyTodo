@@ -13,7 +13,7 @@
 
 ControlUnit::ControlUnit(){
     std::ifstream fin;
-    fin.open("../MyTodo/Source/db/NextId.txt");
+    fin.open("NextId.txt");
     nextId=0;
     std::string num;
     if (fin){
@@ -38,7 +38,7 @@ bool ControlUnit::DeleteTodo(Todo *td){
         deleteTodo(td->getId());
 
         std::ofstream fout;
-        fout.open("../MyTodo/Source/db/History.txt",std::ios_base::app);
+        fout.open("History.txt",std::ios_base::app);
         if (fout) {
             if (td->getStatus()!="Completed"){
                 td->updateStatus("Deleted");
@@ -63,6 +63,7 @@ std::vector<std::string> ControlUnit::getStringTodos(){
         for(it = v.begin() ;it != v.end() ;++it)
         {
         strings.push_back((*it)->toString());
+            delete (*it);
         }
         return strings;
 }
@@ -70,7 +71,7 @@ std::vector<std::string> ControlUnit::getPastHistory(){
         std::ifstream file;
         std::vector<std::string> strings;
 
-        file.open("../MyTodo/Source/db/History.txt");
+        file.open("History.txt");
         if (file.is_open()) {
         std::string line;
         while (getline(file, line)) {
@@ -86,7 +87,7 @@ std::vector<std::string> ControlUnit::getPastHistory(){
 ControlUnit::~ControlUnit(){
         std::ofstream fout;
         std::string num=std::to_string(nextId);
-        fout.open("../MyTodo/Source/db/NextId.txt",std::ios::trunc | std::ios::out);
+        fout.open("NextId.txt",std::ios::trunc | std::ios::out);
         if (fout) {
             fout<<num;
         }

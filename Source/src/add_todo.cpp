@@ -5,6 +5,8 @@
 #include "../headers/control_unit.h"
 #include <string>
 #include <QTableView>
+#include <QMessageBox>
+
 
 
 Add_Todo::Add_Todo(QWidget *parent) :
@@ -46,13 +48,28 @@ void Add_Todo::on_pushButton_4_clicked()
     QString name=ui->plainTextEdit_2->toPlainText();
     QString startDate=ui->dateTimeEdit_3->text();
     QString endDate=ui->dateTimeEdit_4->text();
-    ControlUnit *cu  =  new ControlUnit();
     QDateTime date = QDateTime::currentDateTime();
+
+
+    QDateTime start=QDateTime::fromString(startDate,"dd/MM/yyyy hh:mm");
+    QDateTime end=QDateTime::fromString(endDate,"dd/MM/yyyy hh:mm");
+
+    if (date.secsTo(start)>=0 && date.secsTo(end)>0){
+        if (start.secsTo(end)>0){
+    ControlUnit *cu  =  new ControlUnit();
     QString formattedTime = date.toString("dd/MM/yyyy hh:mm");
     cu->AddTodo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),formattedTime.toStdString());
     delete cu;
     refreshTodos(tableView);
-
     close();
+        }
+        else{
+    QMessageBox::critical(this, "Incorrect Date", "Start Date is after End Date!");
+        }
+    }
+    else{
+        QMessageBox::critical(this, "Incorrect Date", "Start Date or End Date are set before current date!");
+    }
+
 }
 

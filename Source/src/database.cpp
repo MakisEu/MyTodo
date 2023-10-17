@@ -1,6 +1,7 @@
 #include "../headers/database.h"
 #include "../headers/helper.h"
 #include "../headers/todo.h"
+#include "../headers/reminder.h"
 #include <iostream>
 #include <QtSql>
 #include <vector>
@@ -9,7 +10,7 @@
 QSqlDatabase DB;
 void openDB(){
 
-    QString path = "../MyTodo/Source/db/currentTodos.db";
+    QString path = "currentTodos.db";
     DB = QSqlDatabase::addDatabase("QSQLITE");
     DB.setDatabaseName(path);
     DB.open();
@@ -27,6 +28,14 @@ void createTables(){
                   "START_DATE     CHAR(19) NOT NULL, "
                   "END_DATE       CHAR(19) NOT NULL, "
                   "DATE_CREATED   char(19) NOT NULL);");
+    query.exec();
+    query.prepare("CREATE TABLE IF NOT EXISTS Reminders("
+                  "TODOID         INT      NOT NULL, "
+                  "MESSAGE        TEXT     NOT NULL, "
+                  "TITLE          CHAR(50) NOT NULL, "
+                  "DATE           CHAR(19) NOT NULL, "
+                  "PRIMARY KEY (TODOID,DATE),        "
+                  "FOREIGN KEY (TODOID) REFERENCES Todo(ID) ON DELETE CASCADE);");
     query.exec();
 }
 
@@ -58,6 +67,21 @@ void addTodo(Todo* newTodo){
     query.bindValue(":date_created",QString::fromStdString(date_created));
     query.exec();
 
+    query.prepare("INSERT INTO Reminders (TODOID,MESSAGE,TITLE,DATE) VALUES (:id,:msg,:title,:date);");
+    query.bindValue(":id",newTodo->getId());
+    query.bindValue(":msg","The todo "+QString::fromStdString(name)+" has started.");
+    query.bindValue(":title","Todo Has Started");
+    query.bindValue(":date",QString::fromStdString(start_date));
+    query.exec();
+
+
+    query.prepare("INSERT INTO Reminders (TODOID,MESSAGE,TITLE,DATE) VALUES (:id,:msg,:title,:date);");
+    query.bindValue(":id",newTodo->getId());
+    query.bindValue(":msg","The todo "+QString::fromStdString(name)+" has expired.");
+    query.bindValue(":title","Todo Has Expired");
+    query.bindValue(":date",QString::fromStdString(end_date));
+    query.exec();
+
 }
 std::vector<Todo*> getTodos(){
     QSqlQuery query(DB);
@@ -84,24 +108,78 @@ std::vector<Todo*> getTodos(){
 }
 void deleteTodo(int id){
     QSqlQuery query(DB);
+    query.exec("PRAGMA foreign_keys = ON");
     query.prepare("DELETE FROM Todo WHERE ID ="+QString::fromStdString(std::to_string(id))+";");
     query.exec();
 }
 void editTodo(Todo *td){
     QSqlQuery query(DB);
+    QString start,end;
+    query.prepare("SELECT * FROM Todo WHERE ID;");
+    query.exec();
+    query.next();
+    start=query.value(3).toString();
+    end=query.value(4).toString();
+
     query.prepare("UPDATE Todo SET NAME=:name, START_DATE=:sd, END_DATE=:ed WHERE ID=:id;");
     query.bindValue(":name",QString::fromStdString(td->getName()));
     query.bindValue(":sd",QString::fromStdString(td->getStartDate()));
     query.bindValue(":ed",QString::fromStdString(td->getEndDate()));
     query.bindValue(":id",td->getId());
     query.exec();
+
+    query.prepare("DELETE FROM Reminders WHERE TODOID=:id;");
+    query.exec();
+
+    query.prepare("INSERT INTO Reminders (TODOID,MESSAGE,TITLE,DATE) VALUES (:id,:msg,:title,:date);");
+    query.bindValue(":id",td->getId());
+    query.bindValue(":msg","The todo "+QString::fromStdString(td->getName())+" has started.");
+    query.bindValue(":title","Todo Has Started");
+    query.bindValue(":date",QString::fromStdString(td->getStartDate()));
+    query.exec();
+
+
+    query.prepare("INSERT INTO Reminders (TODOID,MESSAGE,TITLE,DATE) VALUES (:id,:msg,:title,:date);");
+    query.bindValue(":id",td->getId());
+    query.bindValue(":msg","The todo "+QString::fromStdString(td->getName())+" has expired.");
+    query.bindValue(":title","Todo Has Expired");
+    query.bindValue(":date",QString::fromStdString(td->getEndDate()));
+    query.exec();
+
 }
 void updateStatus(int id,std::string s){
     QSqlQuery query(DB);
-    query.prepare("UPDATE TODO SET STATUS=:status WHERE ID=:id;");
+    query.prepare("UPDATE Todo SET STATUS=:status WHERE ID=:id;");
     query.bindValue(":status",QString::fromStdString(s));
+    query.bindValue(":id",id);
+    if (!query.exec()){
+        int x=10;
+    }
+}
+
+std::vector<Reminder*> getReminders(QString datetime){
+    QSqlQuery query(DB);
+    std::vector <Reminder*> vec;
+    query.prepare("SELECT TODOID,MESSAGE,TITLE FROM Reminders WHERE DATE=:datetime ;");
+    query.bindValue(":datetime",datetime);
+    query.exec();
+    Reminder *rm;
+
+    while (query.next()){
+        rm=new Reminder(query.value(0).toInt(),query.value(1).toString(),query.value(2).toString());
+        vec.push_back(rm);
+    }
+    return vec;
+
+}
+void deleteReminder(int id, QString datetime){
+    QSqlQuery query(DB);
+    query.prepare("DELETE FROM Reminders WHERE TODOID=:id AND DATE=:datetime ;");
+    query.bindValue(":id",id);
+    query.bindValue(":datetime",datetime);
     query.exec();
 }
+
 
 
 Database::Database()

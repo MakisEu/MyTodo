@@ -4,7 +4,11 @@
 #include "../headers/add_todo.h"
 #include "../headers/database.h"
 #include "../headers/history.h"
+#include "../headers/reminder.h"
 #include <QMainWindow>
+#include <QMap>
+#include <QDateTime>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,10 +34,14 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void CheckNotify();
+
+
 
 private:
     Ui::MainWindow *ui;
     History *hist;
+    QMap <QDateTime,Reminder> d;
     //Add_Todo* add_todo;
 };
 #endif // MAINWINDOW_H

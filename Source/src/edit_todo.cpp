@@ -4,6 +4,8 @@
 #include "../headers/control_unit.h"
 #include "../headers/helper.h"
 
+#include <QMessageBox>
+
 Edit_Todo::Edit_Todo(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Edit_Todo)
@@ -45,13 +47,28 @@ void Edit_Todo::on_pushButton_4_clicked()
     QString name=ui->plainTextEdit_2->toPlainText();
     QString startDate=ui->dateTimeEdit_3->text();
     QString endDate=ui->dateTimeEdit_4->text();
-    ControlUnit *cu  =  new ControlUnit();
-    Todo *td=new Todo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),"",id);
-    cu->EditTodo(td);
-    delete td;
-    delete cu;
-    refreshTodos(tableView);
-    close();
+
+    QDateTime date = QDateTime::currentDateTime();
+    QDateTime start=QDateTime::fromString(startDate,"dd/MM/yyyy hh:mm");
+    QDateTime end=QDateTime::fromString(endDate,"dd/MM/yyyy hh:mm");
+
+    if (date.secsTo(start)>=0 && date.secsTo(end)>0){
+        if (start.secsTo(end)>0){
+            ControlUnit *cu  =  new ControlUnit();
+            Todo *td=new Todo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),"",id);
+            cu->EditTodo(td);
+            delete td;
+            delete cu;
+            refreshTodos(tableView);
+            close();
+        }
+        else{
+            QMessageBox::critical(this, "Incorrect Date", "Start Date is after End Date!");
+        }
+    }
+    else{
+        QMessageBox::critical(this, "Incorrect Date", "Start Date or End Date are set before current date!");
+    }
 
 }
 

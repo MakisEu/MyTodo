@@ -33,6 +33,9 @@ set(PROJECT_SOURCES
         Source/src/database.cpp
         Source/headers/helper.h
         Source/src/helper.cpp
+        Source/headers/reminder.h
+        Source/src/reminder.cpp
+
 
         ${TS_FILES}
 )

@@ -6,11 +6,15 @@
 #include "../headers/history.h"
 #include "../headers/helper.h"
 #include "../headers/control_unit.h"
+#include "../headers/reminder.h"
 
 #include <QMainWindow>
 #include <QMessageBox>
 #include <iostream>
 #include <string>
+#include <QMap>
+#include <QErrorMessage>
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -25,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     //ui->tableView->setModel(QAbstractItemView::SingleSelection);
     refreshTodos(ui->tableView);
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(CheckNotify()));
+    timer->start(1000);
 }
 
 MainWindow::~MainWindow()
@@ -52,10 +59,7 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::on_pushButton_1_clicked()
 {
     //Edit Todo Button
-    Edit_Todo *edit_todo = new Edit_Todo();
-    edit_todo->setWindowTitle("Edit Todo");
-    edit_todo->passTable(ui->tableView);
-    edit_todo->setWindowModality(Qt::ApplicationModal);
+
     QItemSelectionModel *select=ui->tableView->selectionModel();
     int id=select->selectedRows(0).value(0).data().toInt();
     std::string name,sd,ed,dc,stat;
@@ -65,11 +69,22 @@ void MainWindow::on_pushButton_1_clicked()
     ed=select->selectedRows(4).value(0).data().toString().toStdString();
     dc=select->selectedRows(5).value(0).data().toString().toStdString();
 
+    if (!(id==0 && name=="" && stat=="" && ed=="" && sd=="" && dc=="")){
+    Edit_Todo *edit_todo = new Edit_Todo();
+    edit_todo->setWindowTitle("Edit Todo");
+    edit_todo->passTable(ui->tableView);
+    edit_todo->setWindowModality(Qt::ApplicationModal);
+
+
     Todo *td=new Todo(name,sd,ed,dc,id);
     edit_todo->setValues(td);
     delete td;
 
     edit_todo->show();
+    }
+    else{
+    QMessageBox::critical(this, "No Todo Selected", "Please select Todo to edit!");
+    }
 
 }
 
@@ -94,10 +109,7 @@ void MainWindow::on_pushButton_3_clicked()
     s=select->selectedRows(2).value(0).data().toString();
     s=select->selectedRows(3).value(0).data().toString();
     */
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Delete Todo", "Are you sure you want to delete the selected Todo?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes){
+
     QItemSelectionModel *select=ui->tableView->selectionModel();
     int id=select->selectedRows(0).value(0).data().toInt();
     std::string name,sd,ed,dc,stat;
@@ -106,6 +118,12 @@ void MainWindow::on_pushButton_3_clicked()
     sd=select->selectedRows(3).value(0).data().toString().toStdString();
     ed=select->selectedRows(4).value(0).data().toString().toStdString();
     dc=select->selectedRows(5).value(0).data().toString().toStdString();
+
+    if (!(id==0 && name=="" && stat=="" && ed=="" && sd=="" && dc=="")){
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete Todo", "Are you sure you want to delete the selected Todo?",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes){
     ControlUnit *cu=new ControlUnit();
 
     Todo *td=new Todo(name,sd,ed,dc,id);
@@ -114,6 +132,11 @@ void MainWindow::on_pushButton_3_clicked()
     delete cu;
     delete td;
     refreshTodos(ui->tableView);
+    }
+    }
+    else{
+    QMessageBox::critical(this, "No Todo Selected", "Please select Todo to delete!");
+
     }
 
 }
@@ -130,6 +153,7 @@ void MainWindow::on_pushButton_4_clicked()
     sd=select->selectedRows(3).value(0).data().toString().toStdString();
     ed=select->selectedRows(4).value(0).data().toString().toStdString();
     dc=select->selectedRows(5).value(0).data().toString().toStdString();
+    if (!(id==0 && name=="" && stat=="" && ed=="" && sd=="" && dc=="")){
     ControlUnit *cu=new ControlUnit();
 
     Todo *td=new Todo(name,sd,ed,dc,id);
@@ -137,10 +161,28 @@ void MainWindow::on_pushButton_4_clicked()
     delete td;
     delete cu;
     refreshTodos(ui->tableView);
+    }
+    else{
+    QMessageBox::critical(this, "No Todo Selected", "Please select Todo to Complete!");
 
+    }
 }
 
+void MainWindow::CheckNotify(){
+    QDateTime date = QDateTime::currentDateTime();
+    QString formattedTime = date.toString("dd/MM/yyyy hh:mm");
+    std::vector<Reminder*> v=getReminders(formattedTime);
+    std::string s;
+    if (!v.empty()){
+        for(std::vector<Reminder*>::iterator it = v.begin() ;it != v.end() ;++it){
+            std::system(getCommand(*it).c_str());
+            deleteReminder((*it)->todoId,formattedTime);
+            updateStatus((*it)->todoId,"In Progress");
+        }
+        refreshTodos(ui->tableView);
+    }
 
+}
 
 
 

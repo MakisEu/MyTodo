@@ -1,12 +1,13 @@
-#include "../headers/history.h"
-#include "../ui/ui_history.h"
+#include "history.h"
+#include "ui_history.h"
 
-#include "../headers/control_unit.h"
-#include "../headers/todo.h"
-#include "../headers/control_unit.h"
-#include "../headers/database.h"
+#include "control_unit.h"
+#include "todo.h"
+#include "control_unit.h"
+#include "database.h"
 #include <string>
 #include <fstream>
+#include <QStandardItemModel>
 
 History::History(QWidget *parent) :
     QWidget(parent),
@@ -44,11 +45,11 @@ void History::loadHistory(){
 }
 
 
-
 History::~History()
 {
     delete ui;
 }
+
 void History::on_pushButton_clicked()
 {
     //Clear History Button
@@ -59,6 +60,7 @@ void History::on_pushButton_clicked()
     loadHistory();
 
 }
+
 
 
 

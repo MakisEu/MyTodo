@@ -3,7 +3,7 @@
 
 Todo::Todo(std::string name,std::string start_date,std::string end_date,std::string date_created,int id){
         this->editTodo(name,start_date,end_date);
-		this->status="In Progress";
+        this->status="Not Started";
         this->id=id;
         this->date_created=date_created;
 
