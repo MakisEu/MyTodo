@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-fa737d2554a080c3c666.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "MyTodo",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "MyTodo::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MyTodo-Release-cf5f14810ff45130b8e9.json",
+					"name" : "MyTodo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MyTodo_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MyTodo_autogen-Release-67ee75ff0e2ee1645db1.json",
+					"name" : "MyTodo_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MyTodo_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MyTodo_autogen_timestamp_deps-Release-1e746dd97b1ea6d7248b.json",
+					"name" : "MyTodo_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release",
+		"source" : "/home/makis/Documents/Github/MyTodo/MyTodo"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

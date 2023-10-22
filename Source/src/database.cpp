@@ -8,6 +8,9 @@
 #include <string>
 
 QSqlDatabase DB;
+/*
+ * Opens an SQLite database from a file
+*/
 void openDB(){
 
     QString path = "currentTodos.db";
@@ -15,10 +18,15 @@ void openDB(){
     DB.setDatabaseName(path);
     DB.open();
 }
+/*
+ * Closes the database
+*/
 void closeDB(){
     DB.close();
 }
-
+/*
+ * Creates the Todo and Reminder tables
+*/
 void createTables(){
     QSqlQuery query(DB);
     query.prepare("CREATE TABLE IF NOT EXISTS Todo("
@@ -38,7 +46,9 @@ void createTables(){
                   "FOREIGN KEY (TODOID) REFERENCES Todo(ID) ON DELETE CASCADE);");
     query.exec();
 }
-
+/*
+ * Preps the todo values (to prevent sql injection), stores the todo and create reminders for the start date and end date of the todo
+*/
 void addTodo(Todo* newTodo){
     std::string name,status,start_date,end_date,date_created;
     name=newTodo->getName();
@@ -81,8 +91,10 @@ void addTodo(Todo* newTodo){
     query.bindValue(":title","Todo Has Expired");
     query.bindValue(":date",QString::fromStdString(end_date));
     query.exec();
-
 }
+/*
+ * Returns all the todos in the database in a vector
+*/
 std::vector<Todo*> getTodos(){
     QSqlQuery query(DB);
     query.prepare("SELECT * FROM Todo;");
@@ -106,12 +118,18 @@ std::vector<Todo*> getTodos(){
     }
     return v;
 }
+/*
+ * Deletes the todo and the reminders associated with the todo
+*/
 void deleteTodo(int id){
     QSqlQuery query(DB);
     query.exec("PRAGMA foreign_keys = ON");
     query.prepare("DELETE FROM Todo WHERE ID ="+QString::fromStdString(std::to_string(id))+";");
     query.exec();
 }
+/*
+ * Edits a todo and re-creates the reminders according to the new datetimes
+*/
 void editTodo(Todo *td){
     QSqlQuery query(DB);
     QString start,end;
@@ -145,8 +163,10 @@ void editTodo(Todo *td){
     query.bindValue(":title","Todo Has Expired");
     query.bindValue(":date",QString::fromStdString(td->getEndDate()));
     query.exec();
-
 }
+/*
+ * Updates the status the of a todo with a specific id
+*/
 void updateStatus(int id,std::string s){
     QSqlQuery query(DB);
     query.prepare("UPDATE Todo SET STATUS=:status WHERE ID=:id;");
@@ -156,7 +176,9 @@ void updateStatus(int id,std::string s){
         int x=10;
     }
 }
-
+/*
+ * Returns all the reminders with a specific datetime
+*/
 std::vector<Reminder*> getReminders(QString datetime){
     QSqlQuery query(DB);
     std::vector <Reminder*> vec;
@@ -170,8 +192,10 @@ std::vector<Reminder*> getReminders(QString datetime){
         vec.push_back(rm);
     }
     return vec;
-
 }
+/*
+ * Deletes a reminder with a specific Todo id
+*/
 void deleteReminder(int id, QString datetime){
     QSqlQuery query(DB);
     query.prepare("DELETE FROM Reminders WHERE TODOID=:id AND DATE=:datetime ;");
@@ -181,8 +205,3 @@ void deleteReminder(int id, QString datetime){
 }
 
 
-
-Database::Database()
-{
-
-}

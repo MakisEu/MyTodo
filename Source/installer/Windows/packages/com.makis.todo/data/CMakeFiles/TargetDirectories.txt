@@ -1,0 +1,9 @@
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/MyTodo.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/edit_cache.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/rebuild_cache.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/list_install_components.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/install.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/install/local.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/install/strip.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/MyTodo_autogen_timestamp_deps.dir
+/home/makis/Documents/Github/MyTodo/build-MyTodo-Desktop-Release/CMakeFiles/MyTodo_autogen.dir
