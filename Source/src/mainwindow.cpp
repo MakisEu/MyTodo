@@ -16,7 +16,9 @@
 #include <QErrorMessage>
 
 
-
+/*
+ * Sets up the window, refreshes the todo table and starts a Qtimer every 1 second
+*/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -33,7 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer, SIGNAL(timeout()), this, SLOT(CheckNotify()));
     timer->start(1000);
 }
-
+/*
+ * Destructor for the window that closes any open History window, closes the database and the application
+*/
 MainWindow::~MainWindow()
 {
     delete hist;
@@ -41,7 +45,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+/*
+ * Creates the Add_Todo window and passes the todo table to it
+*/
 void MainWindow::on_pushButton_2_clicked()
 {
     //Add Todo Button
@@ -55,7 +61,10 @@ void MainWindow::on_pushButton_2_clicked()
     add_todo->passTable(ui->tableView);
 }
 
-
+/*
+ * Creates the Edit_Todo window, passes the todo table to it and also passes the todo that will be edited.
+ * If no todo is selected, it informs the user
+*/
 void MainWindow::on_pushButton_1_clicked()
 {
     //Edit Todo Button
@@ -88,7 +97,9 @@ void MainWindow::on_pushButton_1_clicked()
 
 }
 
-
+/*
+ * Creates the History window and passes the todo table to it
+*/
 void MainWindow::on_pushButton_5_clicked()
 {
     //History Button
@@ -98,7 +109,9 @@ void MainWindow::on_pushButton_5_clicked()
     hist->show();
 }
 
-
+/*
+ * Delete the todo that is selected (after the user confirms the deletion) from the database and refreshes the todo table
+*/
 void MainWindow::on_pushButton_3_clicked()
 {
     //Delete Todo Button
@@ -141,7 +154,9 @@ void MainWindow::on_pushButton_3_clicked()
 
 }
 
-
+/*
+ * Sets the selected Todo as Completed and removes it from the database
+*/
 void MainWindow::on_pushButton_4_clicked()
 {
     //Mark as completed Button
@@ -167,7 +182,9 @@ void MainWindow::on_pushButton_4_clicked()
 
     }
 }
-
+/*
+ * Checks every time it is called if there is any reminder for the current datetime and if there are, send notifications
+*/
 void MainWindow::CheckNotify(){
     QDateTime date = QDateTime::currentDateTime();
     QString formattedTime = date.toString("dd/MM/yyyy hh:mm");
