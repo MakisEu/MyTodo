@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Installer>
-<Name>Todo</Name>
-    <Version>1.0.0</Version>
-    <Title>Todo Installer</Title>
-	<Publisher>Makis</Publisher>
-    <StartMenuDir>TODO</StartMenuDir>
-    <TargetDir>@HomeDir@/Todo</TargetDir>
-</Installer>
