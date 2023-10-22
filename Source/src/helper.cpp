@@ -8,7 +8,9 @@
 
 
 
-
+/*
+ * Replaces the sequence toReplace in the string s with the sequence replaceWith
+*/
 void replace(std::string& s, std::string const& toReplace, std::string const& replaceWith){
     std::string buf;
     std::size_t pos = 0;
@@ -30,7 +32,9 @@ void replace(std::string& s, std::string const& toReplace, std::string const& re
     buf.append(s, prevPos, s.size() - prevPos);
     s.swap(buf);
 }
-
+/*
+ * Inserts every Todo in the table tv and sets custom sizes for each column
+*/
 void refreshTodos(QTableView *tv){
     QSqlQueryModel* modal=new QSqlQueryModel();
     QSqlQuery* query=new QSqlQuery(DB);
@@ -47,6 +51,9 @@ void refreshTodos(QTableView *tv){
     tv->setColumnWidth(4,125);
     tv->setColumnWidth(5,125);
 }
+/*
+ *  Creates the command to send a notification (os specific -only Linux is supported currently) based on the type of reminder and returns the command
+*/
 std::string getCommand(Reminder *r){
     std::string s;
     QString title;

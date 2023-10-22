@@ -8,32 +8,39 @@
 #include <QMessageBox>
 
 
-
+/*
+ * Constructor sets up the GUI and sets the default values of the timedate fields
+*/
 Add_Todo::Add_Todo(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Add_Todo)
 {
     ui->setupUi(this);
     QDateTime date = QDateTime::currentDateTime();
+    date=date.addSecs(60);
     ui->dateTimeEdit_3->setDateTime(date);
     date=date.addSecs(60*60*2);
     ui->dateTimeEdit_4->setDateTime(date);
 
 }
-//Add_Todo::Add_Todo(QWidget *parent,QWidget *p){
-  //  Add_Todo();
-//}
 
-
+/*
+ * Deletes the window created from .ui
+*/
 Add_Todo::~Add_Todo()
 {
 
     delete ui;
 }
-
+/*
+ * Takes the todo table pointer from the main window and stores it for later usage
+*/
 void Add_Todo::passTable(QTableView * p){
     tableView=p;
 }
+/*
+ * Closes the window
+*/
 void Add_Todo::on_pushButton_3_clicked()
 {
     //Cancel Button
@@ -41,7 +48,10 @@ void Add_Todo::on_pushButton_3_clicked()
     close();
 }
 
-
+/*
+ * Checks if the user inputed values are valid, and if they are, calls the method AddTodo
+ * of ControlUnit and refreshes the table of todos. If the values are invalid, it informs the user
+*/
 void Add_Todo::on_pushButton_4_clicked()
 {
     //Add Todo Button
@@ -53,7 +63,7 @@ void Add_Todo::on_pushButton_4_clicked()
 
     QDateTime start=QDateTime::fromString(startDate,"dd/MM/yyyy hh:mm");
     QDateTime end=QDateTime::fromString(endDate,"dd/MM/yyyy hh:mm");
-
+    if (name.length()<=150){
     if (date.secsTo(start)>=0 && date.secsTo(end)>0){
         if (start.secsTo(end)>0){
     ControlUnit *cu  =  new ControlUnit();
@@ -69,6 +79,10 @@ void Add_Todo::on_pushButton_4_clicked()
     }
     else{
         QMessageBox::critical(this, "Incorrect Date", "Start Date or End Date are set before current date!");
+    }
+    }
+    else{
+    QMessageBox::critical(this, "Name is too long", "The name of the Todo exceeds 150 characters!");
     }
 
 }

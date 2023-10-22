@@ -8,6 +8,10 @@
 #include <string>
 #include <fstream>
 
+
+/*
+ * Constructor sets up the GUI and loads the history
+*/
 History::History(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::History)
@@ -17,6 +21,12 @@ History::History(QWidget *parent) :
     ui->listWidget->setWordWrap(true);
     loadHistory();
 }
+
+/*
+ * calls the getStringTodos and getPastTodos methods of ControlUnit
+ * and sets the values of the list with the vectors of string that was returned
+ *
+*/
 void History::loadHistory(){
 
     ControlUnit *cu=new ControlUnit();
@@ -44,11 +54,16 @@ void History::loadHistory(){
 }
 
 
-
+/*
+ * Deletes the window created from .ui
+*/
 History::~History()
 {
     delete ui;
 }
+/*
+ * Clears the history file's past todos
+*/
 void History::on_pushButton_clicked()
 {
     //Clear History Button
