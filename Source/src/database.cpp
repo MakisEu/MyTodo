@@ -203,5 +203,17 @@ void deleteReminder(int id, QString datetime){
     query.bindValue(":datetime",datetime);
     query.exec();
 }
-
-
+/*
+ * Queries the database for the max id returns that +1. If the database is emepty, returns 0
+*/
+int getNextId(){
+    QSqlQuery query(DB);
+    query.prepare("SELECT MAX(id) FROM Todo ;");
+    query.exec();
+    if (query.next()) {
+        return query.value(0).toInt()+1;
+    }
+    else{
+        return 0;
+    }
+}

@@ -48,4 +48,10 @@ std::vector<Reminder*> getReminders(QString datetime);
 */
 void deleteReminder(int id, QString datetime);
 
+/*
+ * Returns the id of the next todo
+*/
+int getNextId();
+
+
 #endif // DATABASE_H

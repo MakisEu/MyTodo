@@ -17,9 +17,9 @@ Add_Todo::Add_Todo(QWidget *parent) :
 {
     ui->setupUi(this);
     QDateTime date = QDateTime::currentDateTime();
-    date=date.addSecs(60);
+    date=date.addSecs(90);
     ui->dateTimeEdit_3->setDateTime(date);
-    date=date.addSecs(60*60*2);
+    date=date.addSecs(60*60*2+30);
     ui->dateTimeEdit_4->setDateTime(date);
 
 }
