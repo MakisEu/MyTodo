@@ -11,18 +11,10 @@
 
 
 /*
- * Opens a file containing the next id and reads it. If the file does not exist, it defaults to 0.
+ * Sets the next id of the todo
 */
 ControlUnit::ControlUnit(){
-    std::ifstream fin;
-    fin.open("NextId.txt");
-    nextId=0;
-    std::string num;
-    if (fin){
-        getline(fin, num);
-        nextId=QString::fromStdString(num).toInt();
-    }
-    fin.close();
+    nextId=getNextId();
 
 }
 /*
@@ -106,14 +98,8 @@ std::vector<std::string> ControlUnit::getPastHistory(){
 }
 
 /*
- * Opens the file containing the next id and writes into it the next id
+ * destructor
 */
 ControlUnit::~ControlUnit(){
-        std::ofstream fout;
-        std::string num=std::to_string(nextId);
-        fout.open("NextId.txt",std::ios::trunc | std::ios::out);
-        if (fout) {
-            fout<<num;
-        }
-        fout.close();
+
 }
