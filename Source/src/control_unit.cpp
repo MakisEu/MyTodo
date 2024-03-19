@@ -87,7 +87,7 @@ std::vector<std::string> ControlUnit::getPastHistory(){
         file.open("History.txt");
         if (file.is_open()) {
         std::string line;
-        while (getline(file, line)) {
+        while (std::getline(file, line)) {
             // using printf() in all tests for consistency
             strings.push_back(line);
         }
