@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <QMap>
 #include <QErrorMessage>
 
@@ -265,25 +266,20 @@ void MainWindow::on_pushButton_clicked()
 
 
     removeDaily(suffix);
+    if (!std::filesystem::exists("daily_todos.txt")){
+            std::ofstream file("daily_todos.txt");
+            file<< "Daily todo that you have specified in daily_todos.txt 1\n";
+            file<< "Daily todo that you have specified in daily_todos.txt 2\n";
+            file.close();
+    }
     ControlUnit* cu=new ControlUnit();
-    //Do 1 LeetCode:
-    std::string taskName="Solve 1 LeetCode Problem";
-    cu->AddTodo(taskName+suffix,start,end,created,"Education");
-    //Study for Uni:
-    taskName="Study for at least 30 minutes";
-    cu->AddTodo(taskName+suffix,start,end,created,"Education");
-    //Work on web dev:
-    taskName="Work on learning Web Development";
-    cu->AddTodo(taskName+suffix,start,end,created,"Education");
-    //Study ML:
-    taskName="Apply machine learning on 1 dataset";
-    cu->AddTodo(taskName+suffix,start,end,created,"Education");
-    //Work on projects:
-    taskName="Work on an existing project";
-    cu->AddTodo(taskName+suffix,start,end,created,"Education");
-    //Study for owed subjects:
-    taskName="Study Applied Mathematics";
-    cu->AddTodo(taskName+suffix,start,end,created,"Education");
+
+    std::ifstream file("daily_todos.txt");
+    std::string taskName;
+    while (std::getline(file, taskName)) {
+        cu->AddTodo(taskName+suffix,start,end,created,"Education");
+    }
+    file.close();
     delete cu;
     refreshTodos(ui->tableView->model());
     }
