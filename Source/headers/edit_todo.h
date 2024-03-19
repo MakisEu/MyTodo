@@ -2,7 +2,7 @@
 #define EDIT_TODO_H
 
 #include <QWidget>
-#include <QTableView>
+#include <QSqlQueryModel>
 #include "../headers/todo.h"
 namespace Ui {
 class Edit_Todo;
@@ -27,7 +27,7 @@ public:
     /*
      * Method that passes the table of Todoes from the main window into this window
     */
-    void passTable(QTableView *p);
+    void passTable(QAbstractItemModel *p);
     /*
      * Destructor for the window
     */
@@ -51,7 +51,7 @@ private:
     /*
      * The table of todos
     */
-    QTableView* tableView;
+    QAbstractItemModel* tableView;
     /*
      * The id of the todo that is beign edited
     */

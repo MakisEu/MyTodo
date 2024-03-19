@@ -2,7 +2,7 @@
 #define ADD_TODO_H
 
 #include <QWidget>
-#include <QTableView>
+#include <QSqlQueryModel>
 
 namespace Ui {
 class Add_Todo;
@@ -22,7 +22,7 @@ public:
     /*
      * Method that passes the table of Todoes from the main window into this window
     */
-    void passTable(QTableView *p);
+    void passTable(QAbstractItemModel *p);
     /*
      * Destructor for the window
     */
@@ -47,7 +47,7 @@ private:
     /*
      * The table of todos
     */
-    QTableView* tableView;
+    QAbstractItemModel* tableView;
 };
 
 #endif // ADD_TODO_H

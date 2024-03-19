@@ -29,13 +29,14 @@ void closeDB(){
 */
 void createTables(){
     QSqlQuery query(DB);
-    query.prepare("CREATE TABLE IF NOT EXISTS Todo("
+    query.prepare("CREATE TABLE IF NOT EXISTS Todo(  "
                   "ID INT PRIMARY KEY      NOT NULL, "
                   "NAME           TEXT     NOT NULL, "
                   "STATUS         TEXT     NOT NULL, "
                   "START_DATE     CHAR(19) NOT NULL, "
                   "END_DATE       CHAR(19) NOT NULL, "
-                  "DATE_CREATED   char(19) NOT NULL);");
+                  "DATE_CREATED   CHAR(19) NOT NULL, "
+                  "TAG            TEXT     NOT NULL);");
     query.exec();
     query.prepare("CREATE TABLE IF NOT EXISTS Reminders("
                   "TODOID         INT      NOT NULL, "
@@ -44,6 +45,16 @@ void createTables(){
                   "DATE           CHAR(19) NOT NULL, "
                   "PRIMARY KEY (TODOID,DATE),        "
                   "FOREIGN KEY (TODOID) REFERENCES Todo(ID) ON DELETE CASCADE);");
+    query.exec();
+    query.prepare("CREATE TABLE IF NOT EXISTS Task(    "
+                  "TASKID        INT          NOT NULL,"
+                  "NAME          TEXT         NOT NULL,"
+                  "STATUS        CHAR(50)     NOT NULL,"
+                  "ISSUBTASKOF   INT                  ,"
+                  "ISTASKOF      INT                  ,"
+                  "PRIMARY KEY (TASKID),               "
+                  "FOREIGN KEY (ISTASKOF) REFERENCES Todo(ID) ON DELETE CASCADE,"
+                  "FOREIGN KEY (ISSUBTASKOF) REFERENCES Task(TASKID) ON DELETE CASCADE);");
     query.exec();
 }
 /*
@@ -68,13 +79,14 @@ void addTodo(Todo* newTodo){
     replace(date_created,"\"","\"\"");
 
     QSqlQuery query(DB);
-    query.prepare("INSERT INTO Todo (ID,NAME,STATUS,START_DATE,END_DATE,DATE_CREATED) VALUES (:id,:name,:status,:start_date,:end_date,:date_created);");
+    query.prepare("INSERT INTO Todo (ID,NAME,STATUS,START_DATE,END_DATE,DATE_CREATED,TAG) VALUES (:id,:name,:status,:start_date,:end_date,:date_created,:tag);");
     query.bindValue(":id",newTodo->getId());
     query.bindValue(":name",QString::fromStdString(name));
     query.bindValue(":status",QString::fromStdString(status));
     query.bindValue(":start_date",QString::fromStdString(start_date));
     query.bindValue(":end_date",QString::fromStdString(end_date));
     query.bindValue(":date_created",QString::fromStdString(date_created));
+    query.bindValue(":tag",QString::fromStdString(newTodo->getTag()));
     query.exec();
 
     query.prepare("INSERT INTO Reminders (TODOID,MESSAGE,TITLE,DATE) VALUES (:id,:msg,:title,:date);");
@@ -102,7 +114,7 @@ std::vector<Todo*> getTodos(){
         //Error
     }
     std::vector <Todo*> v;
-    std::string name,status,start_date,end_date,date_created;
+    std::string name,status,start_date,end_date,date_created,tag;
     int id;
     Todo* td;
     while (query.next()){
@@ -112,7 +124,8 @@ std::vector<Todo*> getTodos(){
         start_date=query.value(3).toString().toStdString();
         end_date=query.value(4).toString().toStdString();
         date_created=query.value(5).toString().toStdString();
-        td=new Todo(name,start_date,end_date,date_created,id);
+        tag=query.value(6).toString().toStdString();
+        td=new Todo(name,start_date,end_date,date_created,id,tag);
         td->updateStatus(status);
         v.push_back(td);
     }
@@ -139,10 +152,11 @@ void editTodo(Todo *td){
     start=query.value(3).toString();
     end=query.value(4).toString();
 
-    query.prepare("UPDATE Todo SET NAME=:name, START_DATE=:sd, END_DATE=:ed WHERE ID=:id;");
+    query.prepare("UPDATE Todo SET NAME=:name, START_DATE=:sd, END_DATE=:ed, TAG=:tag WHERE ID=:id;");
     query.bindValue(":name",QString::fromStdString(td->getName()));
     query.bindValue(":sd",QString::fromStdString(td->getStartDate()));
     query.bindValue(":ed",QString::fromStdString(td->getEndDate()));
+    query.bindValue(":tag",QString::fromStdString(td->getTag()));
     query.bindValue(":id",td->getId());
     query.exec();
 
@@ -188,8 +202,7 @@ std::vector<Reminder*> getReminders(QString datetime){
     Reminder *rm;
 
     while (query.next()){
-        rm=new Reminder(query.value(0).toInt(),query.value(1).toString(),query.value(2).toString());
-        vec.push_back(rm);
+        vec.push_back(new Reminder(query.value(0).toInt(),query.value(1).toString(),query.value(2).toString()));
     }
     return vec;
 }
@@ -204,4 +217,37 @@ void deleteReminder(int id, QString datetime){
     query.exec();
 }
 
+void removeDaily(std::string suffix){
+    QSqlQuery query(DB);
+    query.exec("PRAGMA foreign_keys = ON");
+    query.prepare("DELETE FROM Todo WHERE NAME LIKE \'%"+QString::fromStdString(suffix)+"%\';");
+    query.exec();
 
+}
+
+std::list<Todo> getTodoOfTheDay(QString date){
+    QSqlQuery query(DB);
+    //query.prepare("SELECT * FROM Todo WHERE START_DATE LIKE :day ORDER BY START_DATE ASC;");
+    query.prepare("SELECT * FROM Todo WHERE substr(START_DATE,1,10) = :day ORDER BY START_DATE ASC;");
+    query.bindValue(":day",date);
+    query.exec();
+    std::list<Todo> todos;
+    //Todo* td;
+
+    int id;
+    std::string name,status,start_date,end_date,date_created,tag;
+    while (query.next()){
+        id=query.value(0).toInt();
+        name=query.value(1).toString().toStdString();
+        status=query.value(2).toString().toStdString();
+        start_date=query.value(3).toString().toStdString();
+        end_date=query.value(4).toString().toStdString();
+        date_created=query.value(5).toString().toStdString();
+        tag=query.value(6).toString().toStdString();
+        Todo td(name,start_date,end_date,date_created,id,tag);
+        //td=new Todo(name,start_date,end_date,date_created,id,tag);
+        //td->updateStatus(status);
+        todos.push_back(td);
+    }
+    return todos;
+}

@@ -35,7 +35,8 @@ set(PROJECT_SOURCES
         Source/src/helper.cpp
         Source/headers/reminder.h
         Source/src/reminder.cpp
-
+        Source/src/timetable.cpp
+        Source/headers/timetable.h
 
         ${TS_FILES}
 )

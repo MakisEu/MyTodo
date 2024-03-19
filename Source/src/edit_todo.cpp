@@ -25,7 +25,7 @@ Edit_Todo::~Edit_Todo()
 /*
  * Takes the todo table pointer from the main window and stores it for later usage
 */
-void Edit_Todo::passTable(QTableView * p){
+void Edit_Todo::passTable(QAbstractItemModel * p){
     tableView=p;
 }
 /*
@@ -43,6 +43,7 @@ void Edit_Todo::setValues(Todo *td){
     id=td->getId();
     ui->dateTimeEdit_4->setDateTime(sd);
     ui->plainTextEdit_2->document()->setPlainText(QString::fromStdString(td->getName()));
+    ui->comboBoxTags->setCurrentIndex(ui->comboBoxTags->findText(QString::fromStdString(td->getTag())));
 }
 /*
  * Closes the window
@@ -63,6 +64,7 @@ void Edit_Todo::on_pushButton_4_clicked()
     QString name=ui->plainTextEdit_2->toPlainText();
     QString startDate=ui->dateTimeEdit_3->text();
     QString endDate=ui->dateTimeEdit_4->text();
+    QString tag=ui->comboBoxTags->currentText();
 
     QDateTime date = QDateTime::currentDateTime();
     QDateTime start=QDateTime::fromString(startDate,"dd/MM/yyyy hh:mm");
@@ -71,7 +73,7 @@ void Edit_Todo::on_pushButton_4_clicked()
     if (date.secsTo(start)>=0 && date.secsTo(end)>0){
         if (start.secsTo(end)>0){
             ControlUnit *cu  =  new ControlUnit();
-            Todo *td=new Todo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),"",id);
+            Todo *td=new Todo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),"",id,tag.toStdString());
             cu->EditTodo(td);
             delete td;
             delete cu;

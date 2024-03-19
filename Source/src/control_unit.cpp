@@ -28,8 +28,8 @@ ControlUnit::ControlUnit(){
 /*
  * Creates the todo, Calls the addTodo function of the database.h  and increments the next id
 */
-bool ControlUnit::AddTodo(std::string name,std::string start_date,std::string end_date,std::string date_created){
-		Todo *todo=new Todo(name,start_date,end_date,date_created,nextId);
+bool ControlUnit::AddTodo(std::string name,std::string start_date,std::string end_date,std::string date_created,std::string tag){
+        Todo *todo=new Todo(name,start_date,end_date,date_created,nextId,tag);
         addTodo(todo);
         nextId++;
         delete todo;

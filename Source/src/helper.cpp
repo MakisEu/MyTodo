@@ -4,7 +4,6 @@
 #include "../headers/database.h"
 
 #include <string>
-#include <QTableView>
 
 
 
@@ -35,21 +34,21 @@ void replace(std::string& s, std::string const& toReplace, std::string const& re
 /*
  * Inserts every Todo in the table tv and sets custom sizes for each column
 */
-void refreshTodos(QTableView *tv){
-    QSqlQueryModel* modal=new QSqlQueryModel();
+void refreshTodos(QAbstractItemModel *model){
+    //QSqlQueryModel* modal=new QSqlQueryModel();
     QSqlQuery* query=new QSqlQuery(DB);
     query->prepare("SELECT * FROM Todo;");
     query->exec();
-    modal->setQuery(std::move(*query));
+    QSqlQueryModel* sqlmodel = qobject_cast<QSqlQueryModel*>(model);
+    if (sqlmodel!=nullptr){
+        sqlmodel->clear();
+        sqlmodel->setQuery(std::move(*query));
+    }
+    //modal->setQuery(std::move(*query));
     delete query;
-    tv->setModel(modal);
-    int size=tv->width();
-    tv->setColumnWidth(0,20);
-    tv->setColumnWidth(1,300);
-    tv->setColumnWidth(2,100);
-    tv->setColumnWidth(3,125);
-    tv->setColumnWidth(4,125);
-    tv->setColumnWidth(5,125);
+    //delete tv->model();
+    //tv->setModel(modal);
+    //int size=tv->width();
 }
 /*
  *  Creates the command to send a notification (os specific -only Linux is supported currently) based on the type of reminder and returns the command

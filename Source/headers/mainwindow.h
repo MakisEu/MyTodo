@@ -4,7 +4,9 @@
 #include "../headers/add_todo.h"
 #include "../headers/database.h"
 #include "../headers/history.h"
+#include "../headers/edit_todo.h"
 #include "../headers/reminder.h"
+#include "../headers/timetable.h"
 #include <QMainWindow>
 #include <QMap>
 #include <QDateTime>
@@ -59,6 +61,10 @@ private slots:
 
 
 
+    void on_pushButton_clicked();
+
+    void on_tabWidget_tabBarClicked(int index);
+
 private:
     /*
      * Window created from the .ui file
@@ -68,5 +74,8 @@ private:
      * The history window
     */
     History *hist;
+    Edit_Todo *edit_todo;
+    Add_Todo *add_todo;
+    TimeTable *timetable;
 };
 #endif // MAINWINDOW_H

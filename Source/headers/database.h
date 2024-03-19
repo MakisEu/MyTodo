@@ -5,6 +5,7 @@
 #include <string>
 #include "todo.h"
 #include "reminder.h"
+#include <list>
 extern QSqlDatabase DB;
 
 /*
@@ -47,5 +48,8 @@ std::vector<Reminder*> getReminders(QString datetime);
  * Deletes a reminder with a specfic datetime and Todo id
 */
 void deleteReminder(int id, QString datetime);
+
+void removeDaily(std::string suffix);
+std::list<Todo> getTodoOfTheDay(QString date);
 
 #endif // DATABASE_H

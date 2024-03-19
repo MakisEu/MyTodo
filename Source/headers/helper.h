@@ -2,7 +2,7 @@
 #define HELPER_H
 
 #include <string>
-#include <QTableView>
+#include <QSqlQueryModel>
 #include "reminder.h"
 
 /*
@@ -12,7 +12,7 @@ void replace( std::string& s, std::string const& toReplace, std::string const& r
 /*
  * Refreshes the Todo table of the main window
 */
-void refreshTodos(QTableView *tv);
+void refreshTodos(QAbstractItemModel *model);
 /*
  *  Return the command to run in the console to send notification
 */

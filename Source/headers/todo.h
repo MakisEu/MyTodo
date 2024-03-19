@@ -30,16 +30,20 @@ class Todo{
                 /*
                 * The status of the todo
                 */
-				std::string status;
+                std::string status;
+                /*
+                * The tag of the todo
+                */
+                std::string tag;
 		public:
                 /*
                 * Default constructor of the Todo
                 */
-                Todo(std::string name,std::string start_date,std::string end_date,std::string date_created,int id);
+                Todo(std::string name,std::string start_date,std::string end_date,std::string date_created,int id,std::string tag);
                 /*
                 * Method that edits the values of the todo
                 */
-				void editTodo(std::string name,std::string start_date,std::string end_date);
+                void editTodo(std::string name,std::string start_date,std::string end_date,std::string tag);
                 /*
                 * Getter for the name
                 */
@@ -67,7 +71,11 @@ class Todo{
                 /*
                 * Getter for the status
                 */
-				std::string getStatus();
+                std::string getStatus();
+                /*
+                 * Getter for the tag
+                */
+                std::string getTag();
                 /*
                 * Returns the string representation of the todo
                 */

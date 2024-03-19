@@ -35,7 +35,7 @@ Add_Todo::~Add_Todo()
 /*
  * Takes the todo table pointer from the main window and stores it for later usage
 */
-void Add_Todo::passTable(QTableView * p){
+void Add_Todo::passTable(QAbstractItemModel * p){
     tableView=p;
 }
 /*
@@ -58,6 +58,7 @@ void Add_Todo::on_pushButton_4_clicked()
     QString name=ui->plainTextEdit_2->toPlainText();
     QString startDate=ui->dateTimeEdit_3->text();
     QString endDate=ui->dateTimeEdit_4->text();
+    QString tag=ui->comboBoxTags->currentText();
     QDateTime date = QDateTime::currentDateTime();
 
 
@@ -68,7 +69,7 @@ void Add_Todo::on_pushButton_4_clicked()
         if (start.secsTo(end)>0){
     ControlUnit *cu  =  new ControlUnit();
     QString formattedTime = date.toString("dd/MM/yyyy hh:mm");
-    cu->AddTodo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),formattedTime.toStdString());
+    cu->AddTodo(name.toStdString(),startDate.toStdString(),endDate.toStdString(),formattedTime.toStdString(),tag.toStdString());
     delete cu;
     refreshTodos(tableView);
     close();

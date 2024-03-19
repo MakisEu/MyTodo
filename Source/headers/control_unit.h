@@ -24,7 +24,7 @@ class ControlUnit{
                 /*
                  * Adds a Todo to the database
                 */
-                bool AddTodo(std::string name,std::string start_date,std::string end_date,std::string date_created);
+                bool AddTodo(std::string name,std::string start_date,std::string end_date,std::string date_created,std::string tag);
                 /*
                  * Edits an existing Todo
                 */
