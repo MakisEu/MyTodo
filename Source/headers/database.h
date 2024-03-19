@@ -49,7 +49,17 @@ std::vector<Reminder*> getReminders(QString datetime);
 */
 void deleteReminder(int id, QString datetime);
 
+/*
+ * Returns the id of the next todo
+*/
+int getNextId();
+/*
+ * Removes all daily Todos with the specific suffix
+*/
 void removeDaily(std::string suffix);
+/*
+ * Return all Todos that are in a certain date
+*/
 std::list<Todo> getTodoOfTheDay(QString date);
 
 #endif // DATABASE_H
