@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme=":/images/todo_icon.png"/>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>

@@ -37,6 +37,7 @@ set(PROJECT_SOURCES
         Source/src/reminder.cpp
         Source/src/timetable.cpp
         Source/headers/timetable.h
+        assets.qrc
 
         ${TS_FILES}
 )
@@ -45,7 +46,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(MyTodo
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+
     )
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET MyTodo APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -62,6 +65,7 @@ else()
     else()
         add_executable(MyTodo
             ${PROJECT_SOURCES}
+
         )
     endif()
 

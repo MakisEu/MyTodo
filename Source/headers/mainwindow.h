@@ -10,6 +10,8 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QDateTime>
+#include <QSystemTrayIcon>
+
 
 
 QT_BEGIN_NAMESPACE
@@ -77,5 +79,6 @@ private:
     Edit_Todo *edit_todo;
     Add_Todo *add_todo;
     TimeTable *timetable;
+
 };
 #endif // MAINWINDOW_H

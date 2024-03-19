@@ -14,7 +14,7 @@
 #include <fstream>
 #include <QMap>
 #include <QErrorMessage>
-
+#include <QSystemTrayIcon>
 
 /*
  * Sets up the window, refreshes the todo table and starts a Qtimer every 1 second
@@ -231,13 +231,17 @@ void MainWindow::CheckNotify(){
             updateStatus((*it)->todoId,"In Progress");
             delete (*it);
         }
+        QSystemTrayIcon trayIcon(this);
+        trayIcon.show();
         if (messagesStart.length()>2){
-            std::string command="notify-send 'Todo Has Started' \""+messagesStart+"\"";
-            system(command.c_str());
+            trayIcon.showMessage("Todo Has Started",QString::fromStdString(messagesStart),QIcon(":/images/todo_icon.png"),2500);
+            //std::string command="notify-send 'Todo Has Started' \""+messagesStart+"\"";
+            //system(command.c_str());
         }
         if (messagesEnd.length()>2){
-            std::string command="notify-send 'Todo Has Expired' \""+messagesEnd+"\"";
-            system(command.c_str());
+            trayIcon.showMessage("Todo Has Expired",QString::fromStdString(messagesEnd),QIcon(":/images/todo_icon.png"),2500);
+            //std::string command="notify-send 'Todo Has Expired' \""+messagesEnd+"\"";
+            //system(command.c_str());
         }
         refreshTodos(ui->tableView->model());
     }
@@ -268,8 +272,21 @@ void MainWindow::on_pushButton_clicked()
     removeDaily(suffix);
     if (!std::filesystem::exists("daily_todos.txt")){
             std::ofstream file("daily_todos.txt");
-            file<< "Daily todo that you have specified in daily_todos.txt 1\n";
-            file<< "Daily todo that you have specified in daily_todos.txt 2\n";
+            //file<< "Daily todo that you have specified in daily_todos.txt 1\n";
+            //file<< "Daily todo that you have specified in daily_todos.txt \n";
+
+            //Do 1 LeetCode:
+            file << "Solve 1 LeetCode Problem\n";
+            //Study for Uni:
+            file << "Study for at least 30 minutes\n";
+            //Work on web dev:
+            file << "Work on learning Web Development\n";
+            //Study ML:
+            file << "Apply machine learning on 1 dataset\n";
+            //Work on projects:
+            file << "Work on an existing project\n";
+            //Study for owed subjects:
+            file << "Study Applied Mathematics\n";
             file.close();
     }
     ControlUnit* cu=new ControlUnit();

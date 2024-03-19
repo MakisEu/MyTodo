@@ -4,15 +4,8 @@
 #include <QLocale>
 #include <QTranslator>
 
-#include <QLoggingCategory>
-#include <QDebug>
-
 int main(int argc, char *argv[])
 {
-    qputenv("QT_LOGGING_RULES", "qt.memory=true"); // Enable the memory tracking
-
-    QLoggingCategory::setFilterRules(QStringLiteral("qt.memory=true")); // Enable the memory tracking
-
     QApplication a(argc, argv);
 
     QTranslator translator;

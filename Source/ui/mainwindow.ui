@@ -14,8 +14,7 @@
    <string>TODO</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>../img/todo_icon.png</normaloff>../img/todo_icon.png</iconset>
+   <iconset theme=":/images/todo_icon.png"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="layoutDirection">
