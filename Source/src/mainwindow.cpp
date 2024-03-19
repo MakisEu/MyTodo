@@ -273,7 +273,7 @@ void MainWindow::on_pushButton_clicked()
     if (!std::filesystem::exists("daily_todos.txt")){
             std::ofstream file("daily_todos.txt");
             file<< "Daily todo that you have specified in daily_todos.txt 1\n";
-            file<< "Daily todo that you have specified in daily_todos.txt \n";
+            file<< "Daily todo that you have specified in daily_todos.txt 2\n";
             file.close();
     }
     ControlUnit* cu=new ControlUnit();
