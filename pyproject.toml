@@ -1,0 +1,5 @@
+[project]
+name = "MyTodo"
+
+[tool.pyside6-project]
+files = ["assets.qrc", "main.py", "mytablemodel.cpp", "mytablemodel.h", "src/CalendarEventWidget.py", "src/MainWindow.py", "src/WeeklyTimetable.py", "src/achievement.py", "src/add_todo.py", "src/calandar_event.py", "src/checkin_dashboard.py", "src/control_unit.py", "src/database.py", "src/edit_todo.py", "src/helper.py", "src/lightweight_table_model.py", "src/list_view.py", "src/monthly_timetable.py", "src/reminder.py", "src/todo.py", "src/todo_timeline.py", "src/ui_colors.py", "ui/add_todo.ui", "ui/edit_todo.ui", "ui/history.ui", "ui/listview.ui", "ui/mainwindow.ui", "ui/monthly_view.ui", "ui/single_day_cell.ui", "ui/timetable.ui"]

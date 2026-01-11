@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>assets/todo_icon.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>assets/pop-6.wav</file>
+    </qresource>
+</RCC>
