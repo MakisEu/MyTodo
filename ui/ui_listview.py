@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'listview.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.10.0
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_ListView(object):
     def setupUi(self, ListView):
         if not ListView.objectName():
             ListView.setObjectName(u"ListView")
-        ListView.resize(650, 420)
+        ListView.resize(643, 417)
         self.list_widget = QWidget(ListView)
         self.list_widget.setObjectName(u"list_widget")
         self.list_widget.setGeometry(QRect(0, 0, 646, 418))
@@ -63,6 +63,12 @@ class Ui_ListView(object):
 
         self.verticalLayout_3.addWidget(self.start_daily_button)
 
+        self.asr_to_todo_button = QPushButton(self.list_widget)
+        self.asr_to_todo_button.setObjectName(u"asr_to_todo_button")
+        self.asr_to_todo_button.setMinimumSize(QSize(120, 70))
+
+        self.verticalLayout_3.addWidget(self.asr_to_todo_button)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_3.addItem(self.verticalSpacer)
@@ -97,6 +103,7 @@ class Ui_ListView(object):
 "As Completed\n"
 "\u2713", None))
         self.start_daily_button.setText(QCoreApplication.translate("ListView", u"Start Daily Todo", None))
+        self.asr_to_todo_button.setText(QCoreApplication.translate("ListView", u"Speech-to-todo", None))
         self.history_button.setText(QCoreApplication.translate("ListView", u"History", None))
     # retranslateUi
 

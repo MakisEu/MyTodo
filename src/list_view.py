@@ -10,6 +10,7 @@ from src.add_todo import AddTodo
 from src.edit_todo import Edit_Todo
 from src.todo import Todo
 from src.control_unit import ControlUnit
+from src.record_dialog import RecordDialog
 
 
 class CustomListView(QWidget):
@@ -25,7 +26,7 @@ class CustomListView(QWidget):
         self.refresh_function=refresh_function
         self.edit_todo=None
         self.add_todo=None
-
+        self.record_dialog=None
 
         self.ui.tableView.setWordWrap(True)
         self.ui.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -54,6 +55,7 @@ class CustomListView(QWidget):
         self.ui.delete_button.clicked.connect(self.on_delete_button_clicked)
         self.ui.mark_as_completed_button.clicked.connect(self.on_mark_as_complete_button)
         self.ui.start_daily_button.clicked.connect(self.on_daily_todo_button)
+        self.ui.asr_to_todo_button.clicked.connect(self.on_speech_to_todo_button)
 
     def refreshTodos(self):
         self.ui.tableView.model().refresh()
@@ -137,6 +139,16 @@ class CustomListView(QWidget):
             self.refresh_function()
         else:
             QMessageBox.critical(self, "No Todo Selected", "Please select Todo to Complete!")
+    def on_speech_to_todo_button(self):
+        print("Pass")
+
+        del self.record_dialog
+        self.record_dialog = RecordDialog(self.database)
+        self.record_dialog.show()
+
+        pass
+
+
     def on_daily_todo_button(self):
         # Daily Todos:
         reply = QMessageBox.question(
